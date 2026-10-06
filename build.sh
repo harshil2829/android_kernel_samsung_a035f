@@ -65,6 +65,8 @@ build_kernel() {
         CROSS_COMPILE="${BUILD_CROSS_COMPILE}" \
         a03_cis_open_defconfig
 
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -d IKHEADERS || true
+
     # Compile Image and DTBs
     make -C "${RDIR}" O="${RDIR}/out" \
         BSP_BUILD_DT_OVERLAY=y \
