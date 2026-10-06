@@ -17,21 +17,27 @@ if [ ! -f ".requirements" ] && [ -f "/etc/debian_version" ]; then
 fi
 
 # Toolchains
-if [ -d "${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin" ]; then
-    export BUILD_CROSS_COMPILE="${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
-else
-    export BUILD_CROSS_COMPILE="aarch64-linux-gnu-"
-fi
-
-if [ -f "${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin/clang" ]; then
-    export BUILD_CC="${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin/clang"
-    export BUILD_LD="${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin/ld.lld"
-elif [ -f "${RDIR}/toolchain/clang/host/linux-x86/clang-r353983c/bin/clang" ]; then
-    export BUILD_CC="${RDIR}/toolchain/clang/host/linux-x86/clang-r353983c/bin/clang"
-    export BUILD_LD="${RDIR}/toolchain/clang/host/linux-x86/clang-r353983c/bin/ld.lld"
+if [ -d "${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin" ]; then
+    export CLANG_TOOL_PATH="${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin"
+    export PATH="${CLANG_TOOL_PATH}:${PATH}"
+    export BUILD_CC="${CLANG_TOOL_PATH}/clang"
+    export BUILD_LD="${CLANG_TOOL_PATH}/ld.lld"
+elif [ -d "${RDIR}/toolchain/clang/host/linux-x86/clang-r353983c/bin" ]; then
+    export CLANG_TOOL_PATH="${RDIR}/toolchain/clang/host/linux-x86/clang-r353983c/bin"
+    export PATH="${CLANG_TOOL_PATH}:${PATH}"
+    export BUILD_CC="${CLANG_TOOL_PATH}/clang"
+    export BUILD_LD="${CLANG_TOOL_PATH}/ld.lld"
 else
     export BUILD_CC="clang"
     export BUILD_LD="ld.lld"
+fi
+
+if [ -d "${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin" ]; then
+    export GCC_TOOL_PATH="${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin"
+    export PATH="${GCC_TOOL_PATH}:${PATH}"
+    export BUILD_CROSS_COMPILE="aarch64-linux-android-"
+else
+    export BUILD_CROSS_COMPILE="aarch64-linux-gnu-"
 fi
 
 # Output & build directory

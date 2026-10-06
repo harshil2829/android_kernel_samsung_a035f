@@ -6,8 +6,21 @@ export ARCH=arm64
 export BSP_BUILD_FAMILY=qogirl6
 export BSP_BUILD_ANDROID_OS=y
 
-export BUILD_CROSS_COMPILE="${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
-export BUILD_CC="${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin/clang"
+if [ -d "${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin" ]; then
+    export CLANG_TOOL_PATH="${RDIR}/toolchain/clang/host/linux-x86/clang-r383902/bin"
+    export PATH="${CLANG_TOOL_PATH}:${PATH}"
+    export BUILD_CC="${CLANG_TOOL_PATH}/clang"
+else
+    export BUILD_CC="clang"
+fi
+
+if [ -d "${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin" ]; then
+    export GCC_TOOL_PATH="${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin"
+    export PATH="${GCC_TOOL_PATH}:${PATH}"
+    export BUILD_CROSS_COMPILE="aarch64-linux-android-"
+else
+    export BUILD_CROSS_COMPILE="aarch64-linux-gnu-"
+fi
 
 export MODULE_DIR="${RDIR}/memkernel"
 export MODULE_DIR_ENH="${RDIR}/memkernel_enhanced"
