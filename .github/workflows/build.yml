@@ -1,0 +1,69 @@
+name: SM-A035F Kernel & Driver Compilation
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release Tag (e.g. v1.0)"
+        required: true
+        default: "v1.0"
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: recursive
+
+      - name: Set up Build Environment
+        run: |
+          sudo apt update -y
+          sudo apt install -y libncurses5-dev bc bison flex make gcc g++ git python3 zip unzip libssl-dev cpio libelf-dev
+
+      - name: Download Toolchains
+        run: |
+          mkdir -p toolchain/gcc/linux-x86/aarch64 toolchain/clang/host/linux-x86
+          echo "[+] Fetching GCC 4.9 toolchain..."
+          git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+          echo "[+] Fetching AOSP Clang toolchain..."
+          git clone --depth=1 https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r383902.git toolchain/clang/host/linux-x86/clang-r383902
+
+      - name: Set Environment Variable
+        run: |
+          echo "BUILD_KERNEL_VERSION=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
+
+      - name: Compile Kernel and Drivers
+        run: |
+          chmod +x build.sh build_external_module.sh
+          bash build.sh
+
+      - name: Upload Kernel Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kernel-SM-A035F-${{ github.event.inputs.tag }}
+          path: build/*.tar
+
+      - name: Upload Driver Module Artifacts (.ko & .sh)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Drivers-SM-A035F-${{ github.event.inputs.tag }}
+          path: |
+            build/modules/*.ko
+            build/modules/*.sh
+
+      - name: Create or Update Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.tag }}
+          name: "Kernel-SM-A035F-${{ github.event.inputs.tag }}"
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "build/*.tar,build/modules/*.ko,build/modules/*.sh"
+          allowUpdates: true
+          replacesArtifacts: true
+          body: "Auto-compiled Kernel and MemKernel/RTDev driver modules for Samsung Galaxy A03 (SM-A035F - Unisoc T606)"

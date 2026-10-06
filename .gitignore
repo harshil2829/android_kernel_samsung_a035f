@@ -1,0 +1,23 @@
+# Build outputs
+out/
+build/
+*.tar
+*.img
+*.ko
+*.o
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+.requirements
+toolchain/
+tools/lib64/
