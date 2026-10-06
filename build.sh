@@ -6,9 +6,8 @@ export ARCH=arm64
 export KBUILD_BUILD_USER="@developer"
 export BSP_BUILD_FAMILY=qogirl6
 export BSP_BUILD_ANDROID_OS=y
-export LD_LIBRARY_PATH="${RDIR}/tools/lib64:${LD_LIBRARY_PATH}"
-export DTC_OVERLAY_TEST_EXT="${RDIR}/tools/mkdtimg/ufdt_apply_overlay"
-export DTC_OVERLAY_VTS_EXT="${RDIR}/tools/mkdtimg/ufdt_verify_overlay_host"
+unset DTC_OVERLAY_TEST_EXT
+unset DTC_OVERLAY_VTS_EXT
 
 # Install requirements on Ubuntu/Debian
 if [ ! -f ".requirements" ] && [ -f "/etc/debian_version" ]; then

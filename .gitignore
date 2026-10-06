@@ -20,6 +20,4 @@ Module.symvers
 .idea/
 .requirements
 toolchain/
-tools/lib64/libart.so
-tools/lib64/libart-compiler.so
-tools/lib64/libplatformprotos.so
+tools/lib64/
