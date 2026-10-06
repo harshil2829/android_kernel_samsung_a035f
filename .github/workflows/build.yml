@@ -22,15 +22,17 @@ jobs:
       - name: Set up Build Environment
         run: |
           sudo apt update -y
-          sudo apt install -y libncurses5-dev bc bison flex make gcc g++ git python3 zip unzip libssl-dev cpio libelf-dev libyaml-dev pkg-config device-tree-compiler
+          sudo apt install -y libncurses5-dev bc bison flex make gcc g++ git python3 zip unzip libssl-dev cpio libelf-dev libyaml-dev pkg-config device-tree-compiler wget tar xz-utils
 
       - name: Download Toolchains
         run: |
-          mkdir -p toolchain/gcc/linux-x86/aarch64 toolchain/clang/host/linux-x86
+          mkdir -p toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 toolchain/clang/host/linux-x86/clang-r383902
           echo "[+] Fetching GCC 4.9 toolchain..."
           git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
-          echo "[+] Fetching Clang toolchain..."
-          git clone --depth=1 https://github.com/kdrag0n/proton-clang.git toolchain/clang/host/linux-x86/clang-r383902
+          echo "[+] Fetching official AOSP Clang-r383902..."
+          wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/android-11.0.0_r28/clang-r383902.tar.gz
+          tar -xzf clang-r383902.tar.gz -C toolchain/clang/host/linux-x86/clang-r383902
+          rm -f clang-r383902.tar.gz
 
       - name: Set Environment Variable
         run: |
