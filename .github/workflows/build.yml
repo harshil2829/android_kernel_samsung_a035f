@@ -29,8 +29,8 @@ jobs:
           mkdir -p toolchain/gcc/linux-x86/aarch64 toolchain/clang/host/linux-x86
           echo "[+] Fetching GCC 4.9 toolchain..."
           git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
-          echo "[+] Fetching AOSP Clang toolchain..."
-          git clone --depth=1 https://gitlab.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r383902.git toolchain/clang/host/linux-x86/clang-r383902
+          echo "[+] Fetching Clang toolchain..."
+          git clone --depth=1 https://github.com/kdrag0n/proton-clang.git toolchain/clang/host/linux-x86/clang-r383902
 
       - name: Set Environment Variable
         run: |
