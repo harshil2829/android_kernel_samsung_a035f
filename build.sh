@@ -60,6 +60,18 @@ fi
 # Fix case-collision netfilter headers on case-sensitive Linux filesystems
 ln -sf xt_dscp.h "${RDIR}/include/uapi/linux/netfilter/xt_DSCP.h" 2>/dev/null || true
 ln -sf xt_tcpmss.h "${RDIR}/include/uapi/linux/netfilter/xt_TCPMSS.h" 2>/dev/null || true
+ln -sf ipt_ttl.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_TTL.h" 2>/dev/null || true
+ln -sf ipt_TTL.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_ttl.h" 2>/dev/null || true
+ln -sf ip6t_hl.h "${RDIR}/include/uapi/linux/netfilter_ipv6/ip6t_HL.h" 2>/dev/null || true
+ln -sf ip6t_HL.h "${RDIR}/include/uapi/linux/netfilter_ipv6/ip6t_hl.h" 2>/dev/null || true
+ln -sf ipt_ecn.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_ECN.h" 2>/dev/null || true
+ln -sf ipt_ECN.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_ecn.h" 2>/dev/null || true
+ln -sf ipt_reject.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_REJECT.h" 2>/dev/null || true
+ln -sf ipt_REJECT.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_reject.h" 2>/dev/null || true
+ln -sf ipt_clusterip.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_CLUSTERIP.h" 2>/dev/null || true
+ln -sf ipt_CLUSTERIP.h "${RDIR}/include/uapi/linux/netfilter_ipv4/ipt_clusterip.h" 2>/dev/null || true
+ln -sf ip6t_reject.h "${RDIR}/include/uapi/linux/netfilter_ipv6/ip6t_REJECT.h" 2>/dev/null || true
+ln -sf ip6t_REJECT.h "${RDIR}/include/uapi/linux/netfilter_ipv6/ip6t_reject.h" 2>/dev/null || true
 
 # Compile Kernel
 build_kernel() {
