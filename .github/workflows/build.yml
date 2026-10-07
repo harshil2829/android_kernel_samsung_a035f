@@ -11,6 +11,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    env:
+      MAKEFLAGS: -j2
+      MALLOC_TRIM_THRESHOLD_: 131072
+      MALLOC_MMAP_THRESHOLD_: 131072
 
     steps:
       - name: Checkout Source

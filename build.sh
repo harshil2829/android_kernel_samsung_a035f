@@ -75,12 +75,9 @@ build_kernel() {
 
     "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -d IKHEADERS || true
 
-    NPROC=$(nproc 2>/dev/null || echo 2)
-    if [ "$NPROC" -gt 4 ]; then
-        JOBS=4
-    else
-        JOBS=$NPROC
-    fi
+    export MALLOC_TRIM_THRESHOLD_=131072
+    export MALLOC_MMAP_THRESHOLD_=131072
+    JOBS=2
 
     # Compile Image and DTBs
     make -C "${RDIR}" O="${RDIR}/out" \
