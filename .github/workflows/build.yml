@@ -55,6 +55,7 @@ jobs:
 
       - name: Compile Kernel and Drivers
         run: |
+          ulimit -n 65536 || true
           chmod +x build.sh build_external_module.sh
           bash build.sh
 

@@ -81,6 +81,7 @@ build_kernel() {
 
     export MALLOC_TRIM_THRESHOLD_=131072
     export MALLOC_MMAP_THRESHOLD_=131072
+    ulimit -n 65536 || true
     JOBS=2
 
     # Compile Image and DTBs
@@ -91,7 +92,7 @@ build_kernel() {
         ARCH=arm64 \
         CLANG_TRIPLE=aarch64-linux-gnu- \
         CROSS_COMPILE="${BUILD_CROSS_COMPILE}" \
-        --output-sync=target -j"${JOBS}"
+        -j"${JOBS}"
     
     mkdir -p "${RDIR}/arch/arm64/boot"
     cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/arch/arm64/boot/Image" 2>/dev/null || true
