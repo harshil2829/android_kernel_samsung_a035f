@@ -36,6 +36,12 @@ if [ -d "${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin" 
     export GCC_TOOL_PATH="${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin"
     export PATH="${GCC_TOOL_PATH}:${PATH}"
     export BUILD_CROSS_COMPILE="${GCC_TOOL_PATH}/aarch64-linux-android-"
+    for f in "${GCC_TOOL_PATH}"/aarch64-linux-android-*; do
+        [ -f "$f" ] || continue
+        base="$(basename "$f")"
+        target_link="${GCC_TOOL_PATH}/${base/aarch64-linux-android-/aarch64-linux-gnu-}"
+        [ ! -e "$target_link" ] && ln -sf "$base" "$target_link" || true
+    done
 else
     export BUILD_CROSS_COMPILE="aarch64-linux-gnu-"
 fi
