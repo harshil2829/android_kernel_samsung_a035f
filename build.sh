@@ -57,6 +57,10 @@ if [ -z "$BUILD_KERNEL_VERSION" ]; then
     export BUILD_KERNEL_VERSION="dev"
 fi
 
+# Fix case-collision netfilter headers on case-sensitive Linux filesystems
+ln -sf xt_dscp.h "${RDIR}/include/uapi/linux/netfilter/xt_DSCP.h" 2>/dev/null || true
+ln -sf xt_tcpmss.h "${RDIR}/include/uapi/linux/netfilter/xt_TCPMSS.h" 2>/dev/null || true
+
 # Compile Kernel
 build_kernel() {
     echo "======================================================"

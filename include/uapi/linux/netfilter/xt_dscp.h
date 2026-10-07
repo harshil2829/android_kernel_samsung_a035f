@@ -29,4 +29,14 @@ struct xt_tos_match_info {
 	__u8 invert;
 };
 
+/* target info */
+struct xt_DSCP_info {
+	__u8 dscp;
+};
+
+struct xt_tos_target_info {
+	__u8 tos_value;
+	__u8 tos_mask;
+};
+
 #endif /* _XT_DSCP_H */
