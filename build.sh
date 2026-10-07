@@ -40,7 +40,9 @@ if [ -d "${RDIR}/toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin" 
         [ -f "$f" ] || continue
         base="$(basename "$f")"
         target_link="${GCC_TOOL_PATH}/${base/aarch64-linux-android-/aarch64-linux-gnu-}"
+        target_plain="${GCC_TOOL_PATH}/${base/aarch64-linux-android-/}"
         [ ! -e "$target_link" ] && ln -sf "$base" "$target_link" || true
+        [ ! -e "$target_plain" ] && ln -sf "$base" "$target_plain" || true
     done
 else
     export BUILD_CROSS_COMPILE="aarch64-linux-gnu-"
