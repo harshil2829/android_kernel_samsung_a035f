@@ -19,6 +19,14 @@ jobs:
           fetch-depth: 1
           submodules: recursive
 
+      - name: Configure Swap Space
+        run: |
+          sudo fallocate -l 8G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=8192
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          free -h
+
       - name: Set up Build Environment
         run: |
           sudo apt update -y

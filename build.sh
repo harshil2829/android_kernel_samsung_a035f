@@ -75,6 +75,13 @@ build_kernel() {
 
     "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -d IKHEADERS || true
 
+    NPROC=$(nproc 2>/dev/null || echo 2)
+    if [ "$NPROC" -gt 4 ]; then
+        JOBS=4
+    else
+        JOBS=$NPROC
+    fi
+
     # Compile Image and DTBs
     make -C "${RDIR}" O="${RDIR}/out" \
         BSP_BUILD_DT_OVERLAY=y \
@@ -83,7 +90,7 @@ build_kernel() {
         ARCH=arm64 \
         CLANG_TRIPLE=aarch64-linux-gnu- \
         CROSS_COMPILE="${BUILD_CROSS_COMPILE}" \
-        --output-sync=target -j"$(nproc)"
+        --output-sync=target -j"${JOBS}"
     
     mkdir -p "${RDIR}/arch/arm64/boot"
     cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/arch/arm64/boot/Image" 2>/dev/null || true
