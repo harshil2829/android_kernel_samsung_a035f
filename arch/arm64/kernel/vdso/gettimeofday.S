@@ -25,10 +25,10 @@
 #define NSEC_PER_SEC_LO16	0xca00
 #define NSEC_PER_SEC_HI16	0x3b9a
 
-vdso_data	.req	x6
-seqcnt		.req	w7
-w_tmp		.req	w8
-x_tmp		.req	x8
+#define vdso_data	x6
+#define seqcnt		w7
+#define w_tmp		w8
+#define x_tmp		x8
 
 /*
  * Conventions for macro arguments:

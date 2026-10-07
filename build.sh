@@ -83,7 +83,7 @@ build_kernel() {
         ARCH=arm64 \
         CLANG_TRIPLE=aarch64-linux-gnu- \
         CROSS_COMPILE="${BUILD_CROSS_COMPILE}" \
-        -j"$(nproc)"
+        --output-sync=target -j"$(nproc)"
     
     mkdir -p "${RDIR}/arch/arm64/boot"
     cp "${RDIR}/out/arch/arm64/boot/Image" "${RDIR}/arch/arm64/boot/Image" 2>/dev/null || true
