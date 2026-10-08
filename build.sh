@@ -167,6 +167,19 @@ if [ ! -f "${RDIR}/net/netfilter/xt_tcpmss.c" ] || [ "${RDIR}/net/netfilter/xt_t
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_tcpmss.h>
 
+#ifndef TCPOPT_EOL
+#define TCPOPT_EOL 0
+#endif
+#ifndef TCPOPT_NOP
+#define TCPOPT_NOP 1
+#endif
+#ifndef TCPOPT_MAXSEG
+#define TCPOPT_MAXSEG 2
+#endif
+#ifndef TCPOLEN_MAXSEG
+#define TCPOLEN_MAXSEG 4
+#endif
+
 MODULE_AUTHOR("Marc Boucher <marc@mbsi.ca>");
 MODULE_DESCRIPTION("Xtables: TCP MSS match");
 MODULE_LICENSE("GPL");
