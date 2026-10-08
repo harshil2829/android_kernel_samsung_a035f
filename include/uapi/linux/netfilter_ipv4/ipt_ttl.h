@@ -20,5 +20,17 @@ struct ipt_ttl_info {
 	__u8	ttl;
 };
 
+/* Target definitions for TTL modification */
+enum {
+	IPT_TTL_SET = 0,
+	IPT_TTL_INC,
+	IPT_TTL_DEC,
+	IPT_TTL_MAXMODE
+};
+
+struct ipt_TTL_info {
+	__u8	mode;
+	__u8	ttl;
+};
 
 #endif
