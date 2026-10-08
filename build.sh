@@ -163,6 +163,7 @@ if [ ! -f "${RDIR}/net/netfilter/xt_tcpmss.c" ] || [ "${RDIR}/net/netfilter/xt_t
 #include <linux/module.h>
 #include <linux/skbuff.h>
 #include <linux/tcp.h>
+#include <net/tcp.h>
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_tcpmss.h>
 
