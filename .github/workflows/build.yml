@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release Tag (e.g. v1.0)"
+        description: "Release Tag (e.g. v1.1)"
         required: true
-        default: "v1.0"
+        default: "v1.1"
 
 jobs:
   build:
@@ -39,7 +39,7 @@ jobs:
       - name: Set up Build Environment
         run: |
           sudo apt update -y
-          sudo apt install -y libncurses5-dev bc bison flex make gcc g++ git python3 zip unzip libssl-dev cpio libelf-dev libyaml-dev pkg-config device-tree-compiler wget tar xz-utils binutils-aarch64-linux-gnu
+          sudo apt install -y libncurses5-dev bc bison flex make gcc g++ git python3 zip unzip libssl-dev cpio libelf-dev libyaml-dev pkg-config device-tree-compiler wget tar xz-utils binutils-aarch64-linux-gnu lz4
 
       - name: Download Toolchains
         run: |
@@ -65,7 +65,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Kernel-SM-A035F-${{ github.event.inputs.tag }}
-          path: build/*.tar
+          path: |
+            build/*.tar
+            build/*.img
+            build/*.lz4
 
       - name: Upload Driver Module Artifacts (.ko & .sh)
         uses: actions/upload-artifact@v4
@@ -83,7 +86,7 @@ jobs:
           draft: false
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: "build/*.tar,build/modules/*.ko,build/modules/*.sh"
+          artifacts: "build/*.tar,build/*.img,build/*.lz4,build/modules/*.ko,build/modules/*.sh"
           allowUpdates: true
           replacesArtifacts: true
-          body: "Auto-compiled Kernel and MemKernel/RTDev driver modules for Samsung Galaxy A03 (SM-A035F - Unisoc T606)"
+          body: "Auto-compiled KernelSU-enabled Kernel, Boot Image, and MemKernel/RTDev driver modules for Samsung Galaxy A03 (SM-A035F - Unisoc T606)"

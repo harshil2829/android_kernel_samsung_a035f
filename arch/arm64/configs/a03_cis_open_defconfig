@@ -5078,3 +5078,7 @@ CONFIG_SBITMAP=y
 # KUnit support
 #
 # CONFIG_TEST is not set
+
+# KernelSU
+CONFIG_KSU=y
+

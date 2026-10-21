@@ -357,6 +357,14 @@ build_kernel() {
         a03_cis_open_defconfig
 
     "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -d IKHEADERS || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e KSU || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e OVERLAY_FS || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e KPROBES || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e HAVE_KPROBES || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e KPROBE_EVENTS || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e KRETPROBES || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e HAVE_KRETPROBES || true
+    "${RDIR}/scripts/config" --file "${RDIR}/out/.config" -e EXT4_FS || true
 
     export MALLOC_TRIM_THRESHOLD_=131072
     export MALLOC_MMAP_THRESHOLD_=131072
@@ -398,6 +406,12 @@ build_tar() {
         cd "${RDIR}/build"
         tar -cvf "Kernel-SM-A035F-${BUILD_KERNEL_VERSION}.tar" boot.img
         echo -e "\n[+] Odin Flashable TAR created: build/Kernel-SM-A035F-${BUILD_KERNEL_VERSION}.tar\n"
+
+        if command -v lz4 >/dev/null 2>&1; then
+            lz4 -B6 --content-size -f boot.img boot.img.lz4
+            tar -cvf "Kernel-SM-A035F-${BUILD_KERNEL_VERSION}-Odin.tar" boot.img.lz4
+            echo -e "[+] Samsung LZ4 Odin Flashable TAR created: build/Kernel-SM-A035F-${BUILD_KERNEL_VERSION}-Odin.tar\n"
+        fi
         cd "${RDIR}"
     fi
 }
