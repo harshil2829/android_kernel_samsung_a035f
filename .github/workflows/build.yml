@@ -45,11 +45,21 @@ jobs:
         run: |
           mkdir -p toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 toolchain/clang/host/linux-x86/clang-r383902
           echo "[+] Fetching GCC 4.9 toolchain..."
-          git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+          git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 || \
+          git clone --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 toolchain/gcc/linux-x86/aarch64/aarch64-linux-android-4.9
+
           echo "[+] Fetching official AOSP Clang-r383902..."
-          wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/android-11.0.0_r28/clang-r383902.tar.gz
-          tar -xzf clang-r383902.tar.gz -C toolchain/clang/host/linux-x86/clang-r383902
-          rm -f clang-r383902.tar.gz
+          if wget --retry-connrefused --waitretry=3 --tries=5 -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android12-release/clang-r383902.tar.gz -O clang-r383902.tar.gz; then
+            tar -xzf clang-r383902.tar.gz -C toolchain/clang/host/linux-x86/clang-r383902
+            rm -f clang-r383902.tar.gz
+          elif wget --retry-connrefused --waitretry=3 --tries=5 -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/android-11.0.0_r28/clang-r383902.tar.gz -O clang-r383902.tar.gz; then
+            tar -xzf clang-r383902.tar.gz -C toolchain/clang/host/linux-x86/clang-r383902
+            rm -f clang-r383902.tar.gz
+          else
+            echo "[!] Fallback: Cloning Clang-r383902 from GitHub mirror..."
+            git clone --depth=1 https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-6443078 toolchain/clang/host/linux-x86/clang-r383902
+          fi
+          ./toolchain/clang/host/linux-x86/clang-r383902/bin/clang --version
 
       - name: Set Environment Variable
         run: |
